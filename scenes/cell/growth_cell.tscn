@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0uagurj7s0vl"]
+
+[ext_resource type="Script" path="res://scripts/cell/growth_cell.gd" id="1_ah66t"]
+[ext_resource type="PackedScene" uid="uid://cquyj2pi7laap" path="res://scenes/cell/inner_cell.tscn" id="2_81y8p"]
+
+[node name="GrowthCell" type="Node2D"]
+script = ExtResource("1_ah66t")
+
+[node name="InnerCell" parent="." instance=ExtResource("2_81y8p")]
+
+[connection signal="ready" from="InnerCell" to="." method="_on_inner_cell_ready"]

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://uq1vkp0jubww"]
+
+[ext_resource type="Script" path="res://scripts/gui/active_rect.gd" id="1_jrel6"]
+
+[node name="ActiveRect" type="Node2D"]
+script = ExtResource("1_jrel6")

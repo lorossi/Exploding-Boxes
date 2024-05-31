@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://byvrsvu08omp3"]
+
+[ext_resource type="Theme" uid="uid://cspbh3wsg5xg6" path="res://scenes/themes/gui_theme.tres" id="1_70ceh"]
+[ext_resource type="Script" path="res://scripts/gui/gui.gd" id="2_suiqi"]
+
+[node name="Gui" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 840.0
+theme = ExtResource("1_70ceh")
+script = ExtResource("2_suiqi")
+
+[node name="ScoreContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+offset_top = 8.0
+offset_right = 640.0
+offset_bottom = 59.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScoreContainer"]
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="ScoreContainer/HBoxContainer"]
+layout_mode = 2
+text = "score:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ScoreValue" type="Label" parent="ScoreContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+vertical_alignment = 1
+
+[node name="SkipButtonContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 0
+offset_left = 40.0
+offset_top = 752.0
+offset_right = 296.0
+offset_bottom = 811.0
+
+[node name="SkipButton" type="Button" parent="SkipButtonContainer"]
+layout_mode = 2
+text = "skip a turn"
+
+[node name="RestartButtonContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 0
+offset_left = 352.0
+offset_top = 752.0
+offset_right = 608.0
+offset_bottom = 811.0
+
+[node name="RestartButton" type="Button" parent="RestartButtonContainer"]
+layout_mode = 2
+text = "restart"
+
+[connection signal="pressed" from="SkipButtonContainer/SkipButton" to="." method="_on_skip_button_pressed"]
+[connection signal="pressed" from="RestartButtonContainer/RestartButton" to="." method="_on_restart_button_pressed"]

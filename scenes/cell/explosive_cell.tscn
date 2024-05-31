@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bofjjvtlqarm5"]
+
+[ext_resource type="Script" path="res://scripts/cell/explosive_cell.gd" id="1_n1pyw"]
+[ext_resource type="PackedScene" uid="uid://cquyj2pi7laap" path="res://scenes/cell/inner_cell.tscn" id="1_scewo"]
+
+[node name="ExplosiveCell" type="Node2D"]
+script = ExtResource("1_n1pyw")
+
+[node name="InnerCell" parent="." instance=ExtResource("1_scewo")]
+
+[connection signal="ready" from="InnerCell" to="." method="_on_inner_cell_ready"]

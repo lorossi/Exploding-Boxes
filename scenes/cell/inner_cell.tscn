@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://cquyj2pi7laap"]
+
+[ext_resource type="Script" path="res://scripts/cell/inner_cell.gd" id="1_yes2u"]
+[ext_resource type="Theme" uid="uid://6mv46xs075br" path="res://scenes/themes/cell_theme.tres" id="2_5ir4g"]
+[ext_resource type="PackedScene" uid="uid://dundat1ikjce" path="res://scenes/cell/cell_background.tscn" id="3_6ap0t"]
+[ext_resource type="PackedScene" uid="uid://bup1qd14gge4f" path="res://scenes/cell/fade_out_rect.tscn" id="3_41ds2"]
+[ext_resource type="PackedScene" uid="uid://oromwdj7aarb" path="res://scenes/cell/fade_in_rect.tscn" id="4_ohrrh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2kcxr"]
+size = Vector2(64, 64)
+
+[node name="InnerCell" type="Area2D"]
+input_pickable = false
+script = ExtResource("1_yes2u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(32, 32)
+shape = SubResource("RectangleShape2D_2kcxr")
+
+[node name="CellBackground" parent="." instance=ExtResource("3_6ap0t")]
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="DamageRect" parent="." instance=ExtResource("3_41ds2")]
+
+[node name="FadeInRect" parent="." instance=ExtResource("4_ohrrh")]
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+offset_right = 64.0
+offset_bottom = 64.0
+
+[node name="NumberLabel" type="Label" parent="CenterContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+theme = ExtResource("2_5ir4g")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1

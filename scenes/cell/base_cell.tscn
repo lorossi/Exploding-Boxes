@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bd7cxxsjkdf3m"]
+
+[ext_resource type="Script" path="res://scripts/cell/base_cell.gd" id="1_l721r"]
+[ext_resource type="PackedScene" uid="uid://cquyj2pi7laap" path="res://scenes/cell/inner_cell.tscn" id="2_donga"]
+
+[node name="BaseCell" type="Node2D"]
+script = ExtResource("1_l721r")
+
+[node name="InnerCell" parent="." instance=ExtResource("2_donga")]
+
+[connection signal="ready" from="InnerCell" to="." method="_on_inner_cell_ready"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://q6omdh0oypje"]
+
+[ext_resource type="Script" path="res://scripts/cell/extra_points_cell.gd" id="1_23uko"]
+[ext_resource type="PackedScene" uid="uid://cquyj2pi7laap" path="res://scenes/cell/inner_cell.tscn" id="2_1yn3s"]
+
+[node name="ExtraPoints" type="Node2D"]
+script = ExtResource("1_23uko")
+
+[node name="InnerCell" parent="." instance=ExtResource("2_1yn3s")]
+
+[connection signal="ready" from="InnerCell" to="." method="_on_inner_cell_ready"]
