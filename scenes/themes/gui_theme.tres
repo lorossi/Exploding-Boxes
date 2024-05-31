@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cspbh3wsg5xg6"]
+
+[ext_resource type="FontFile" uid="uid://c52jaedn6rqau" path="res://assets/font/m5x7.ttf" id="1_fqgri"]
+
+[resource]
+Button/font_sizes/font_size = 64
+Button/fonts/font = ExtResource("1_fqgri")
+HBoxContainer/constants/separation = 16
+Label/font_sizes/font_size = 64
+Label/fonts/font = ExtResource("1_fqgri")
