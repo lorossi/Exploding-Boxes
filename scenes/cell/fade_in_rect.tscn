@@ -9,8 +9,12 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_5g4e5")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="FadeTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
 
-[connection signal="timeout" from="Timer" to="." method="on_timer_timeout"]
+[node name="WaitTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="FadeTimer" to="." method="on_fade_timer_timeout"]
+[connection signal="timeout" from="WaitTimer" to="." method="on_wait_timer_timeout"]

@@ -1,27 +1,31 @@
 class_name FadeInRect
 extends Control
 
-var timer: Timer
+var fade_timer: Timer
+var wait_timer: Timer
 var _parent: Node2D
 
 
 func _ready() -> void:
-	timer = $Timer
+	fade_timer = $FadeTimer
+	wait_timer = $WaitTimer
+	
 	_parent = get_parent()
 	if _parent:
 		_parent.modulate.a = 0
 
 
 func get_timer_duration() -> float:
-	return timer.wait_time
+	return fade_timer.wait_time
 
 
 func set_timer_duration(time: float) -> void:
-	timer.wait_time = time
+	fade_timer.wait_time = time
 
 
 func start() -> void:
-	timer.start()
+	wait_timer.wait_time = abs(randfn(0.1, 0.05))
+	wait_timer.start()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,11 +33,15 @@ func _process(_delta) -> void:
 	if not _parent:
 		return
 
-	if not timer.is_stopped():
-		var t = 1 - timer.time_left / timer.wait_time
+	if not fade_timer.is_stopped():
+		var t = 1 - fade_timer.time_left / fade_timer.wait_time
 		var e = Easings.ease_in_poly(t, 3)
 		_parent.modulate.a = e
 
 
-func on_timer_timeout() -> void:
+func on_fade_timer_timeout() -> void:
 	_parent.modulate.a = 1
+
+
+func on_wait_timer_timeout():
+	fade_timer.start()

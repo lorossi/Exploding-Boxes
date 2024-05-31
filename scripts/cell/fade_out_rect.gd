@@ -6,7 +6,9 @@ var _rect: ColorRect
 
 
 func _ready() -> void:
-	timer = $Timer
+	fade_timer = $FadeTimer
+	wait_timer = $WaitTimer
+	
 	_rect = $ColorRect
 	_rect.visible = false
 	modulate.a = 0
@@ -34,12 +36,12 @@ func start() -> void:
 
 
 func _process(_delta) -> void:
-	if not timer.is_stopped():
-		var t = timer.time_left / timer.wait_time
+	if not fade_timer.is_stopped():
+		var t = fade_timer.time_left / fade_timer.wait_time
 		var e = Easings.ease_out_poly(t, 3)
 		modulate.a = e * 0.5
 
 
-func on_timer_timeout() -> void:
+func on_fade_timer_timeout() -> void:
 	_rect.visible = false
 	modulate.a = 0
