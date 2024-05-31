@@ -5,7 +5,7 @@ extends FadeInRect
 var _rect: ColorRect
 
 
-func _ready():
+func _ready() -> void:
 	timer = $Timer
 	_rect = $ColorRect
 	_rect.visible = false
@@ -33,13 +33,13 @@ func start() -> void:
 	super.start()
 
 
-func _process(_delta):
+func _process(_delta) -> void:
 	if not timer.is_stopped():
 		var t = timer.time_left / timer.wait_time
 		var e = Easings.ease_out_poly(t, 3)
 		modulate.a = e * 0.5
 
 
-func on_timer_timeout():
+func on_timer_timeout() -> void:
 	_rect.visible = false
 	modulate.a = 0

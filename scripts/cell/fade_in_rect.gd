@@ -5,7 +5,7 @@ var timer: Timer
 var _parent: Node2D
 
 
-func _ready():
+func _ready() -> void:
 	timer = $Timer
 	_parent = get_parent()
 	if _parent:
@@ -25,7 +25,7 @@ func start() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(_delta) -> void:
 	if not _parent:
 		return
 
@@ -35,5 +35,5 @@ func _process(_delta):
 		_parent.modulate.a = e
 
 
-func on_timer_timeout():
+func on_timer_timeout() -> void:
 	_parent.modulate.a = 1

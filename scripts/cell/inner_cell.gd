@@ -57,7 +57,7 @@ func _ready() -> void:
 #_damage_rect.color.a = e * 0.25
 
 
-func _on_damage_timer_timeout():
+func _on_damage_timer_timeout() -> void:
 	_damage_rect.color.a = 0
 
 
