@@ -17,8 +17,9 @@ echo "" > $log_file
 # log current date
 echo "Format started: $(current_date)" >> $log_file
 
-for file in $(find "scripts" -name "*.gd" -type f); do
-    
+# load current files changed in git
+git_files=$(git status --porcelain | tail -n +2 | grep -E ".*\.gd$" | awk '{print $2}')
+for file in $git_files; do
     echo "Formatting $file"
     echo "$(current_date) formatting $file" >> $log_file
     
