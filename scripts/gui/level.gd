@@ -226,11 +226,13 @@ func _delete_active_cells() -> void:
 		if c is GrowthCell:
 			to_grow.append(_get_pos_from_cell(c))
 			c.queue_free()
+		elif c is ExplosiveCell:
+			c.queue_free()
 		else:
 			if c is SpecialCell and randf() < c.get_replace_ratio():
 				_replace_special_cell()
 
-			c.die()
+			c.die(false)
 
 	for pos in to_grow:
 		_grow_cell(pos)
@@ -323,6 +325,8 @@ func _input(event) -> void:
 	# check that the mouse is inside the level area
 	var mouse_inside = _level_area.get_rect().has_point(event.position)
 	if not mouse_inside:
+		_mouse_pressed = false
+		_reset_active_cells()
 		return
 
 	if _is_game_over():

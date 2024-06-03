@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5p4qh7pvymdg"]
+
+[ext_resource type="Theme" uid="uid://cspbh3wsg5xg6" path="res://scenes/themes/gui_theme.tres" id="1_hdmpo"]
+[ext_resource type="Script" path="res://scripts/gui/restart_confirmation.gd" id="2_hrdul"]
+
+[node name="RestartConfirmation" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_hdmpo")
+script = ExtResource("2_hrdul")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.784314)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.152
+anchor_right = 1.0
+anchor_bottom = 0.274
+offset_top = 0.319992
+offset_bottom = -0.160019
+
+[node name="Label" type="Label" parent="CenterContainer"]
+layout_mode = 2
+text = "do you want to restart?"
+
+[node name="RestartButtonContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+offset_left = 64.0
+offset_top = 384.0
+offset_right = 320.0
+offset_bottom = 435.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+
+[node name="YesButton" type="Button" parent="RestartButtonContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+text = "yes"
+
+[node name="RestartButtonContainer2" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+offset_left = 384.0
+offset_top = 384.0
+offset_right = 640.0
+offset_bottom = 435.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+
+[node name="NoButton" type="Button" parent="RestartButtonContainer2"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+text = "no"
