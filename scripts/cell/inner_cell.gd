@@ -39,9 +39,9 @@ func _ready() -> void:
 
 	_damage_rect.set_rect_color(c)
 
-	_fade_in_rect.set_timer_duration(0.25)
-	_fade_out_rect.set_timer_duration(0.25)
-	_damage_rect.set_timer_duration(0.5)
+	_fade_in_rect.set_timer_duration(0.1)
+	_fade_out_rect.set_timer_duration(0.1)
+	_damage_rect.set_timer_duration(0.2)
 
 	# colors: ff0000-ff8700-ffd300-deff0a-a1ff0a-0aff99-0aefff-147df5-580aff-be0aff
 	# heh

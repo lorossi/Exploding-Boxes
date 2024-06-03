@@ -19,21 +19,13 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	_wait_timer = Timer.new()
-	_wait_timer.one_shot = true
+	_wait_timer = $WaitTimer
+	_in_timer = $InTimer
+	_out_timer = $OutTimer
+
 	_wait_timer.timeout.connect(_on_wait_timer_timeout)
-
-	_in_timer = Timer.new()
-	_in_timer.one_shot = true
 	_in_timer.timeout.connect(_on_in_timer_timeout)
-
-	_out_timer = Timer.new()
-	_out_timer.one_shot = true
 	_out_timer.timeout.connect(_on_out_timer_timeout)
-
-	add_child(_wait_timer)
-	add_child(_in_timer)
-	add_child(_out_timer)
 
 
 func get_use_wait_timer() -> bool:
@@ -44,24 +36,13 @@ func set_use_wait_timer(use: bool) -> void:
 	_use_wait_timer = use
 
 
-func get_in_wait_time() -> float:
-	return _wait_timer.get_wait_time()
+func get_wait_time() -> float:
+	return _in_timer.get_wait_time()
 
 
-func set_in_wait_time(time: float) -> void:
-	_wait_timer.set_wait_time(time)
-
-
-func get_out_wait_time() -> float:
-	return _wait_timer.get_wait_time()
-
-
-func set_out_wait_time(time: float) -> void:
-	_wait_timer.set_wait_time(time)
-
-
-func get_in_time_left() -> float:
-	return _in_timer.get_time_left()
+func set_wait_time(time: float) -> void:
+	_in_timer.set_wait_time(time)
+	_out_timer.set_wait_time(time)
 
 
 func get_in_eased_time(n: float = 2) -> float:

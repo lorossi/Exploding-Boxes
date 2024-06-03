@@ -221,11 +221,12 @@ func _delete_active_cells() -> void:
 	for c in _active_cells:
 		if c is GrowthCell:
 			to_grow.append(_get_pos_from_cell(c))
+			c.queue_free()
+		else:
+			if c is SpecialCell and randf() < c.get_replace_ratio():
+				_replace_special_cell()
 
-		elif c is SpecialCell and randf() < c.get_replace_ratio():
-			_replace_special_cell()
-
-		c.die()
+			c.die()
 
 	for pos in to_grow:
 		_grow_cell(pos)
