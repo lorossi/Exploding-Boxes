@@ -6,8 +6,6 @@ extends FadeInRect
 func _ready() -> void:
 	timer_in_out = $TimerInOut
 	_parent = get_parent()
-	if _parent:
-		_parent.modulate.a = 1
 
 
 func _process(_delta) -> void:
@@ -18,12 +16,12 @@ func _process(_delta) -> void:
 		return
 
 	var e = timer_in_out.get_out_eased_time(2)
-
 	_parent.modulate.a = e
 
 
 func start() -> void:
-	timer_in_out.start_out_timer()
+	_parent.modulate.a = 1
+	timer_in_out.start()
 
 
 func on_timer_timeout() -> void:

@@ -13,20 +13,19 @@ func _ready() -> void:
 	timer_in_out = $TimerInOut
 
 	_parent = get_parent()
-	if _parent:
-		_parent.modulate.a = 0
 
 
-func set_wait_time(duration: float) -> void:
-	timer_in_out.set_wait_time(duration)
+func set_fade_time(duration: float) -> void:
+	timer_in_out.set_fade_time(duration)
 
 
-func get_wait_time() -> float:
-	return timer_in_out.get_wait_time()
+func get_fade_time() -> float:
+	return timer_in_out.get_fade_time()
 
 
 func start() -> void:
-	timer_in_out.start_in_timer()
+	_parent.modulate.a = 0
+	timer_in_out.start()
 
 
 func _process(_delta) -> void:

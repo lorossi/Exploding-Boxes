@@ -35,7 +35,7 @@ func get_color_rect() -> ColorRect:
 
 func start() -> void:
 	_rect.visible = true
-	timer_in_out.start_out_timer()
+	timer_in_out.start()
 
 
 func _process(_delta) -> void:

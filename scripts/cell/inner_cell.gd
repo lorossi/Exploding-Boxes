@@ -36,12 +36,11 @@ func _ready() -> void:
 	_death_particles = $DeathParticles
 
 	var c = Color.from_string("bb0a1e", Color.RED).lerp(_background.get_background_color(), 0.5)
-
 	_damage_rect.set_rect_color(c)
 
-	_fade_in_rect.set_wait_time(0.5)
-	_fade_out_rect.set_wait_time(0.25)
-	_damage_rect.set_wait_time(0.5)
+	_fade_in_rect.set_fade_time(0.5)
+	_fade_out_rect.set_fade_time(0.25)
+	_damage_rect.set_fade_time(0.5)
 
 	# colors: ff0000-ff8700-ffd300-deff0a-a1ff0a-0aff99-0aefff-147df5-580aff-be0aff
 	# heh
