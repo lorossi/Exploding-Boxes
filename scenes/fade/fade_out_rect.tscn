@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bup1qd14gge4f"]
+[gd_scene load_steps=3 format=3 uid="uid://bup1qd14gge4f"]
 
 [ext_resource type="Script" path="res://scripts/fade/fade_out_rect.gd" id="1_bn32d"]
+[ext_resource type="Script" path="res://scripts/fade/timer_in_out.gd" id="2_wtulk"]
 
 [node name="FadeOutRect" type="Control"]
 layout_mode = 3
@@ -9,12 +10,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_bn32d")
 
-[node name="WaitTimer" type="Timer" parent="."]
-one_shot = true
+[node name="TimerInOut" type="Node2D" parent="."]
+script = ExtResource("2_wtulk")
 
-[node name="FadeTimer" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-
-[connection signal="timeout" from="WaitTimer" to="." method="on_wait_timer_timeout"]
-[connection signal="timeout" from="FadeTimer" to="." method="on_fade_timer_timeout"]
+[connection signal="timeout" from="TimerInOut" to="." method="on_timer_timeout"]

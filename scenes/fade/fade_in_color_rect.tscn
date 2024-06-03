@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl7d2jrcwvm3k"]
+
+[ext_resource type="Script" path="res://scripts/fade/fade_in_color_rect.gd" id="1_utqur"]
+[ext_resource type="PackedScene" uid="uid://cv51a7uk50wna" path="res://scenes/fade/timer_in_out.tscn" id="2_tnp31"]
+
+[node name="FadeInColorRect" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_utqur")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 0, 0, 1)
+
+[node name="TimerInOut" parent="." instance=ExtResource("2_tnp31")]
+
+[connection signal="timeout" from="TimerInOut" to="." method="on_timer_timeout"]

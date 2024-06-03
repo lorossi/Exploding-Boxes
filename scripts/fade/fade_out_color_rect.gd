@@ -1,13 +1,12 @@
 class_name FadeOutColorRect
 
-extends FadeInRect
+extends FadeOutRect
 
 var _rect: ColorRect
 
 
 func _ready() -> void:
-	fade_timer = $FadeTimer
-	wait_timer = $WaitTimer
+	timer_in_out = $TimerInOut
 
 	_rect = $ColorRect
 	_rect.visible = false
@@ -30,19 +29,24 @@ func set_rect_color(color: Color) -> void:
 	_rect.color = color
 
 
+func get_color_rect() -> ColorRect:
+	return _rect
+
+
 func start() -> void:
 	_rect.visible = true
-	super.start()
+	timer_in_out.start_out_timer()
 
 
 func _process(_delta) -> void:
-	if not fade_timer.is_stopped():
-		var t = fade_timer.time_left / fade_timer.wait_time
-		var e = Easings.ease_out_poly(t, 3)
-		modulate.a = e * 0.5
+	if timer_in_out.is_stopped():
+		return
+
+	var e = timer_in_out.get_out_eased_time(2)
+	modulate.a = e
 
 
-func on_fade_timer_timeout() -> void:
+func on_timer_timeout() -> void:
 	_rect.visible = false
 	modulate.a = 0
 	ended.emit()

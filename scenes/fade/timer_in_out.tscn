@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv51a7uk50wna"]
+
+[ext_resource type="Script" path="res://scripts/fade/timer_in_out.gd" id="1_7ct62"]
+
+[node name="TimerInOut" type="Node2D"]
+script = ExtResource("1_7ct62")
