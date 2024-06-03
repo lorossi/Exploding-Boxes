@@ -123,9 +123,13 @@ func decrement_number(delta: int = 1) -> void:
 	set_number(_number - delta)
 
 
-func update() -> void:
+func update() -> bool:
+	# returns true if something has changed
 	if randf() < _decrease_chance:
 		set_number(_number - 1)
+		return true
+		
+	return false
 
 
 func get_decrease_chance() -> float:

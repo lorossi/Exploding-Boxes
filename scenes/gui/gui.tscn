@@ -16,9 +16,9 @@ script = ExtResource("2_suiqi")
 
 [node name="ScoreContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-offset_left = 72.0
+offset_left = 48.0
 offset_top = 8.0
-offset_right = 232.0
+offset_right = 208.0
 offset_bottom = 59.0
 
 [node name="ScorePrefix" type="Label" parent="ScoreContainer"]
@@ -34,14 +34,15 @@ vertical_alignment = 1
 
 [node name="BestScoreContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-offset_left = 392.0
+offset_left = 408.0
 offset_top = 8.0
-offset_right = 664.0
+offset_right = 680.0
 offset_bottom = 59.0
+alignment = 2
 
 [node name="BestScorePrefix" type="Label" parent="BestScoreContainer"]
 layout_mode = 2
-text = "best score:"
+text = "best:"
 horizontal_alignment = 2
 vertical_alignment = 1
 

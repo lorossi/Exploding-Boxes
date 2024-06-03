@@ -28,5 +28,5 @@ color = Color(0.12549, 0.12549, 0.12549, 0)
 
 [node name="GameOver" parent="." instance=ExtResource("3_jkiha")]
 visible = false
-offset_right = 640.0
+offset_right = 716.0
 offset_bottom = 840.0

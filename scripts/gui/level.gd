@@ -32,6 +32,7 @@ func _ready() -> void:
 	_level_area = $LevelArea
 	_gui = $Gui
 	_game_over = $GameOver
+	
 
 	_gui.reset.connect(_restart_game)
 	_gui.skip.connect(_skip_turn)
@@ -43,6 +44,8 @@ func _ready() -> void:
 
 
 func _restart_game() -> void:
+	_game_over.visible = false
+	
 	for c in _cells_container.get_children():
 		c.queue_free()
 
@@ -59,8 +62,15 @@ func _restart_game() -> void:
 	_mouse_pressed = false
 
 
+
 func _skip_turn() -> void:
-	_update_cells()
+	if _is_game_over():
+		return	
+	
+	while true:
+		if _update_cells():
+			return
+	
 
 
 func _create_cell(
@@ -72,7 +82,7 @@ func _create_cell(
 	_cells_container.add_child(cell)
 
 	cell.position = pos
-	cell.dead.connect(_cell_dead)
+	cell.dead.connect(_on_cell_dead)
 	cell.set_size(Vector2.ONE * cell_size)
 	cell.set_number((randi() % 9) + 1)
 	cell.set_skip_first_update(skip_first_update)
@@ -104,7 +114,7 @@ func _replace_cell(old_cell: Cell, new_cell: Cell, min_life: int = 0) -> Cell:
 	return new_cell
 
 
-func _cell_dead(cell: Cell) -> void:
+func _on_cell_dead(cell: Cell) -> void:
 	if cell is ExplosiveCell and not cell.is_exploding():
 		_explode_cell(cell)
 
@@ -278,10 +288,13 @@ func _replace_special_cell() -> void:
 		return
 
 
-func _update_cells() -> void:
+func _update_cells() -> bool:
+	var changed = false
 	for c in _cells_container.get_children():
-		c.update()
-
+		if  c.update():
+			changed = true
+		
+	return changed
 
 func _cells_between(start: Vector2, end: Vector2) -> Array:
 	# Get the cells between two points
@@ -315,22 +328,29 @@ func _is_game_over() -> bool:
 			return false
 
 	return true
+	
+func _get_board_sum() -> int:
+	var total = 0
+	for c in _cells:
+		if c != null:
+			total += c.get_number()
+			
+	return total
+
+func _process(_delta):
+	if _is_game_over():
+		_game_over.visible = true
+		_game_over.set_score(_score)
+	elif _get_board_sum() < 10:
+		for c in _cells:
+			if c != null:
+				c.die()
+		
 
 
 func _input(event) -> void:
 	# check that the envent is mouse-related
 	if not event is InputEventMouse:
-		return
-
-	# check that the mouse is inside the level area
-	var mouse_inside = _level_area.get_rect().has_point(event.position)
-	if not mouse_inside:
-		_mouse_pressed = false
-		_reset_active_cells()
-		return
-
-	if _is_game_over():
-		_game_over.visible = true
 		return
 
 	# check if any cell is currently exploding
@@ -342,6 +362,13 @@ func _input(event) -> void:
 			return
 
 	if event is InputEventMouseButton:
+			# check that the mouse is inside the level area
+		var mouse_inside = _level_area.get_rect().has_point(event.position)
+		if not mouse_inside:
+			_mouse_pressed = false
+			_reset_active_cells()
+			return
+		
 		if event.button_index == 1:
 			if not _mouse_pressed:
 				_drag_started = event.position

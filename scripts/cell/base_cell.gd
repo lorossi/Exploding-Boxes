@@ -10,14 +10,15 @@ var _dead: bool = false
 var _skip_first_update: bool = false
 
 
-func update() -> void:
+func update() -> bool:
 	if _skip_first_update:
 		_skip_first_update = false
-		return
+		return false
 
-	inner.update()
+	var changed = inner.update()
 	post_inner_update()
-
+	
+	return changed
 
 func is_dead() -> bool:
 	return _dead
