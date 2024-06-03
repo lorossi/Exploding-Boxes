@@ -41,6 +41,7 @@ vertical_alignment = 1
 position = Vector2(32, 32)
 emitting = false
 amount = 16
+lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 randomness = 0.5

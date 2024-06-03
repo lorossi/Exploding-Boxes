@@ -17,12 +17,12 @@ func _ready() -> void:
 		_parent.modulate.a = 0
 
 
-func get_timer_duration() -> float:
-	return timer_in_out.get_in_time_left()
+func set_wait_time(duration: float) -> void:
+	timer_in_out.set_wait_time(duration)
 
 
-func set_timer_duration(time: float) -> void:
-	timer_in_out.set_in_wait_time(time)
+func get_wait_time() -> float:
+	return timer_in_out.get_wait_time()
 
 
 func start() -> void:
