@@ -5,19 +5,24 @@ extends Control
 signal reset
 signal skip
 
-var _score_value: Label
+var _score_label: Label
+var _version_label: Label
 
 
 func _ready() -> void:
-	_score_value = find_child("ScoreValue")
+	_score_label = find_child("ScoreLabel")
+	_version_label = find_child("VersionLabel")
+
+	var version = ProjectSettings.get_setting("application/config/version")
+	_version_label.text = "v" + version
 
 
 func get_score() -> int:
-	return int(_score_value.text)
+	return int(_score_label.text)
 
 
 func set_score(score: int) -> void:
-	_score_value.text = str(score)
+	_score_label.text = str(score)
 
 
 func _on_restart_button_pressed() -> void:

@@ -5,28 +5,29 @@
 
 [node name="Gui" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 640.0
-offset_bottom = 840.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_70ceh")
 script = ExtResource("2_suiqi")
 
 [node name="ScoreContainer" type="CenterContainer" parent="."]
 layout_mode = 2
-offset_top = 8.0
-offset_right = 640.0
-offset_bottom = 59.0
+offset_right = 720.0
+offset_bottom = 64.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScoreContainer"]
 layout_mode = 2
 
-[node name="ScoreLabel" type="Label" parent="ScoreContainer/HBoxContainer"]
+[node name="ScorePrefix" type="Label" parent="ScoreContainer/HBoxContainer"]
 layout_mode = 2
 text = "score:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ScoreValue" type="Label" parent="ScoreContainer/HBoxContainer"]
+[node name="ScoreLabel" type="Label" parent="ScoreContainer/HBoxContainer"]
 layout_mode = 2
 text = "0"
 vertical_alignment = 1
@@ -46,14 +47,27 @@ text = "skip a turn"
 [node name="RestartButtonContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 0
-offset_left = 352.0
+offset_left = 424.0
 offset_top = 752.0
-offset_right = 608.0
+offset_right = 680.0
 offset_bottom = 811.0
 
 [node name="RestartButton" type="Button" parent="RestartButtonContainer"]
 layout_mode = 2
 text = "restart"
+
+[node name="VersionLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 632.0
+offset_top = 800.0
+offset_right = 744.0
+offset_bottom = 851.0
+scale = Vector2(0.75, 0.75)
+theme_override_font_sizes/font_size = 32
+text = "v0.0.1
+"
+horizontal_alignment = 2
+vertical_alignment = 2
 
 [connection signal="pressed" from="SkipButtonContainer/SkipButton" to="." method="_on_skip_button_pressed"]
 [connection signal="pressed" from="RestartButtonContainer/RestartButton" to="." method="_on_restart_button_pressed"]

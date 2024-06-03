@@ -23,6 +23,7 @@ var _level_area: ColorRect
 
 var _active_rect: ActiveRect
 var _gui: GUI
+var _game_over: GameOver
 
 
 func _ready() -> void:
@@ -30,9 +31,12 @@ func _ready() -> void:
 	_active_rect = $ActiveRect
 	_level_area = $LevelArea
 	_gui = $Gui
+	_game_over = $GameOver
 
 	_gui.reset.connect(_restart_game)
 	_gui.skip.connect(_skip_turn)
+
+	_game_over.reset.connect(_restart_game)
 
 	_max_cells = _level_area.size / cell_size
 	_restart_game()
@@ -321,6 +325,10 @@ func _input(event) -> void:
 	if not mouse_inside:
 		return
 
+	if _is_game_over():
+		_game_over.visible = true
+		return
+
 	# check if any cell is currently exploding
 	for c in _cells:
 		if c == null:
@@ -344,9 +352,6 @@ func _input(event) -> void:
 					_gui.set_score(_score)
 				else:
 					_reset_active_cells()
-
-				if _is_game_over():
-					print("GAME OVER")
 
 	elif event is InputEventMouseMotion and _mouse_pressed:
 		if (_drag_position - event.position).length() > 8:
