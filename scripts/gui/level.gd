@@ -225,7 +225,7 @@ func _delete_active_cells() -> void:
 		elif c is SpecialCell and randf() < c.get_replace_ratio():
 			_replace_special_cell()
 
-		c.queue_free()
+		c.die()
 
 	for pos in to_grow:
 		_grow_cell(pos)
