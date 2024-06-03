@@ -11,15 +11,24 @@ green='\033[0;32m'
 bold='\033[1m'
 reset='\033[0m'
 
-
 # clear log file
 echo "" > $log_file
-# log current date
-echo "Format started: $(current_date)" >> $log_file
+
+# check if "--all" flag is present
+if [ "$1" = "--all" ]; then
+    echo "Formatting all files"
+    echo "$(current_date) formatting all files" >> $log_file
+    # load all files in the project
+    files=$(find . -name "*.gd")
+else
+    echo "Formatting changed files"
+    echo "$(current_date) formatting changed files" >> $log_file
+    # load current files changed in git
+    files=$(git status --porcelain | tail -n +2 | grep -E ".*\.gd$" | awk '{print $2}')
+fi
 
 # load current files changed in git
-git_files=$(git status --porcelain | tail -n +2 | grep -E ".*\.gd$" | awk '{print $2}')
-for file in $git_files; do
+for file in $files; do
     echo "Formatting $file"
     echo "$(current_date) formatting $file" >> $log_file
     
