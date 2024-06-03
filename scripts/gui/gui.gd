@@ -6,6 +6,7 @@ signal reset
 signal skip
 
 var _score_label: Label
+var _best_score_label: Label
 var _version_label: Label
 var _skip_button: Button
 var _restart_button: Button
@@ -15,6 +16,7 @@ var _restart_confirmation: RestartConfirmation
 
 func _ready() -> void:
 	_score_label = find_child("ScoreLabel")
+	_best_score_label = find_child("BestScoreLabel")
 	_version_label = find_child("VersionLabel")
 	_skip_button = find_child("SkipButton")
 	_restart_button = find_child("RestartButton")
@@ -36,6 +38,12 @@ func get_score() -> int:
 
 func set_score(score: int) -> void:
 	_score_label.text = str(score)
+	
+func get_best_score() -> int:
+	return int(_best_score_label.text)
+
+func set_best_score(score: int) -> void:
+	_best_score_label.text = str(score)
 
 
 func _on_restart_button_pressed() -> void:

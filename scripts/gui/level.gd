@@ -354,6 +354,8 @@ func _input(event) -> void:
 					_delete_active_cells()
 					_update_cells()
 					_gui.set_score(_score)
+					if _score > _gui.get_best_score():
+						_gui.set_best_score(_score)
 				else:
 					_reset_active_cells()
 
