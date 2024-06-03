@@ -32,7 +32,6 @@ func _ready() -> void:
 	_level_area = $LevelArea
 	_gui = $Gui
 	_game_over = $GameOver
-	
 
 	_gui.reset.connect(_restart_game)
 	_gui.skip.connect(_skip_turn)
@@ -45,7 +44,7 @@ func _ready() -> void:
 
 func _restart_game() -> void:
 	_game_over.visible = false
-	
+
 	for c in _cells_container.get_children():
 		c.queue_free()
 
@@ -62,15 +61,13 @@ func _restart_game() -> void:
 	_mouse_pressed = false
 
 
-
 func _skip_turn() -> void:
 	if _is_game_over():
-		return	
-	
+		return
+
 	while true:
 		if _update_cells():
 			return
-	
 
 
 func _create_cell(
@@ -291,10 +288,11 @@ func _replace_special_cell() -> void:
 func _update_cells() -> bool:
 	var changed = false
 	for c in _cells_container.get_children():
-		if  c.update():
+		if c.update():
 			changed = true
-		
+
 	return changed
+
 
 func _cells_between(start: Vector2, end: Vector2) -> Array:
 	# Get the cells between two points
@@ -328,14 +326,16 @@ func _is_game_over() -> bool:
 			return false
 
 	return true
-	
+
+
 func _get_board_sum() -> int:
 	var total = 0
 	for c in _cells:
 		if c != null:
 			total += c.get_number()
-			
+
 	return total
+
 
 func _process(_delta):
 	if _is_game_over():
@@ -345,7 +345,6 @@ func _process(_delta):
 		for c in _cells:
 			if c != null:
 				c.die()
-		
 
 
 func _input(event) -> void:
@@ -362,13 +361,13 @@ func _input(event) -> void:
 			return
 
 	if event is InputEventMouseButton:
-			# check that the mouse is inside the level area
+		# check that the mouse is inside the level area
 		var mouse_inside = _level_area.get_rect().has_point(event.position)
 		if not mouse_inside:
 			_mouse_pressed = false
 			_reset_active_cells()
 			return
-		
+
 		if event.button_index == 1:
 			if not _mouse_pressed:
 				_drag_started = event.position

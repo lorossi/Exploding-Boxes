@@ -128,7 +128,7 @@ func update() -> bool:
 	if randf() < _decrease_chance:
 		set_number(_number - 1)
 		return true
-		
+
 	return false
 
 

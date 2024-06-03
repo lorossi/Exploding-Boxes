@@ -17,8 +17,9 @@ func update() -> bool:
 
 	var changed = inner.update()
 	post_inner_update()
-	
+
 	return changed
+
 
 func is_dead() -> bool:
 	return _dead
