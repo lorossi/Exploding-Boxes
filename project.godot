@@ -11,14 +11,16 @@ config_version=5
 [application]
 
 config/name="Puzzle-1"
+config/version="0.0.1"
 run/main_scene="res://scenes/gui/level.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=640
+window/size/viewport_width=720
 window/size/viewport_height=840
+window/size/resizable=false
 
 [rendering]
 
