@@ -6,13 +6,29 @@ signal dead(Cell)
 
 var inner: InnerCell
 
+var _dead: bool = false
+var _skip_first_update: bool = false
+
 
 func update() -> void:
+	if _skip_first_update:
+		_skip_first_update = false
+		return
+
 	inner.update()
 	post_inner_update()
 
 
-func die() -> void:
+func is_dead() -> bool:
+	return _dead
+
+
+func die(explode: bool = false) -> void:
+	_dead = true
+	inner.die(explode)
+
+
+func _inner_dead() -> void:
 	dead.emit(self)
 	queue_free()
 
@@ -27,7 +43,7 @@ func post_inner_update() -> void:
 
 func _on_inner_cell_ready() -> void:
 	inner = $InnerCell
-	inner.dead.connect(die)
+	inner.dead.connect(_inner_dead)
 	inner.set_decrease_chance(0.1)
 	post_inner_ready()
 
@@ -54,20 +70,37 @@ func set_size(size: Vector2) -> void:
 	inner.set_size(size)
 
 
-func get_background() -> Color:
-	return inner.get_background().get_background_color()
+func get_background_color() -> Color:
+	return inner.get_background_color().get_background_color()
 
 
-func set_background(color: Color) -> void:
-	inner.get_background().set_background_color(color)
+func set_background_color(color: Color) -> void:
+	inner.get_background_color().set_background_color(color)
+
+
+func get_border_color() -> Color:
+	return inner.get_background_color().get_border_color()
+
+
+func set_border_color(color: Color) -> void:
+	inner.get_background_color().set_border_color(color)
 
 
 func get_score() -> int:
 	return 1
 
 
+func get_skip_first_update() -> bool:
+	return _skip_first_update
+
+
+func set_skip_first_update(skip: bool) -> void:
+	_skip_first_update = skip
+
+
 func copy_cell(other: Cell) -> void:
 	set_number(other.get_number())
 	set_size(other.get_size())
-	set_background(other.get_background())
+	set_background_color(other.get_background_color())
+	set_border_color(other.get_border_color())
 	position = other.position

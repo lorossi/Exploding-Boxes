@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://oromwdj7aarb"]
 
-[ext_resource type="Script" path="res://scripts/cell/fade_in_rect.gd" id="1_5g4e5"]
+[ext_resource type="Script" path="res://scripts/fade/fade_in_rect.gd" id="1_5g4e5"]
 
 [node name="FadeInRect" type="Control"]
 layout_mode = 3

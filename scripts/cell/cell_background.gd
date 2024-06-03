@@ -17,7 +17,7 @@ func _init() -> void:
 
 func _draw() -> void:
 	draw_rect(_rect, _background_color)
-	draw_rect(_rect, _border_color, false, _border_size)
+	draw_rect(_rect.grow(-_border_size), _border_color, false, _border_size)
 
 
 func _update_rect() -> void:

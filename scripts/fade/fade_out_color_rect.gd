@@ -1,4 +1,4 @@
-class_name FadeOutRect
+class_name FadeOutColorRect
 
 extends FadeInRect
 
@@ -8,7 +8,7 @@ var _rect: ColorRect
 func _ready() -> void:
 	fade_timer = $FadeTimer
 	wait_timer = $WaitTimer
-	
+
 	_rect = $ColorRect
 	_rect.visible = false
 	modulate.a = 0
@@ -45,3 +45,4 @@ func _process(_delta) -> void:
 func on_fade_timer_timeout() -> void:
 	_rect.visible = false
 	modulate.a = 0
+	ended.emit()

@@ -1,20 +1,13 @@
 [gd_scene load_steps=2 format=3 uid="uid://bup1qd14gge4f"]
 
-[ext_resource type="Script" path="res://scripts/cell/fade_out_rect.gd" id="1_8td7u"]
+[ext_resource type="Script" path="res://scripts/fade/fade_out_rect.gd" id="1_bn32d"]
 
 [node name="FadeOutRect" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_8td7u")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-color = Color(1, 0, 0, 1)
+script = ExtResource("1_bn32d")
 
 [node name="WaitTimer" type="Timer" parent="."]
 one_shot = true
@@ -22,3 +15,6 @@ one_shot = true
 [node name="FadeTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[connection signal="timeout" from="WaitTimer" to="." method="on_wait_timer_timeout"]
+[connection signal="timeout" from="FadeTimer" to="." method="on_fade_timer_timeout"]

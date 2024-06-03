@@ -1,5 +1,8 @@
 class_name FadeInRect
+
 extends Control
+
+signal ended
 
 var fade_timer: Timer
 var wait_timer: Timer
@@ -9,7 +12,7 @@ var _parent: Node2D
 func _ready() -> void:
 	fade_timer = $FadeTimer
 	wait_timer = $WaitTimer
-	
+
 	_parent = get_parent()
 	if _parent:
 		_parent.modulate.a = 0
@@ -24,7 +27,7 @@ func set_timer_duration(time: float) -> void:
 
 
 func start() -> void:
-	wait_timer.wait_time = abs(randfn(0.1, 0.05))
+	wait_timer.wait_time = abs(randfn(0.05, 0.05))
 	wait_timer.start()
 
 
@@ -41,6 +44,7 @@ func _process(_delta) -> void:
 
 func on_fade_timer_timeout() -> void:
 	_parent.modulate.a = 1
+	ended.emit()
 
 
 func on_wait_timer_timeout():

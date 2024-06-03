@@ -39,6 +39,9 @@ func _ready() -> void:
 
 
 func _restart_game() -> void:
+	for c in _cells_container.get_children():
+		c.queue_free()
+
 	_cells = []
 	_active_cells = []
 	for y in range(_max_cells.y):
@@ -56,19 +59,25 @@ func _skip_turn() -> void:
 	_update_cells()
 
 
-func _create_cell(cell: Cell, pos: Vector2, index: int = -1) -> Cell:
+func _create_cell(
+	cell: Cell,
+	pos: Vector2,
+	index: int = -1,
+	skip_first_update: bool = false,
+) -> Cell:
 	_cells_container.add_child(cell)
 
 	cell.position = pos
 	cell.dead.connect(_cell_dead)
 	cell.set_size(Vector2.ONE * cell_size)
 	cell.set_number((randi() % 9) + 1)
+	cell.set_skip_first_update(skip_first_update)
 
 	if index == -1:
 		_cells.append(cell)
 	else:
 		if _cells[index] != null:
-			_cells[index].queue_free()
+			_cells[index].die()
 
 		_cells[index] = cell
 
@@ -78,6 +87,7 @@ func _create_cell(cell: Cell, pos: Vector2, index: int = -1) -> Cell:
 func _replace_cell(old_cell: Cell, new_cell: Cell, min_life: int = 0) -> Cell:
 	_cells_container.add_child(new_cell)
 	new_cell.copy_cell(old_cell)
+	new_cell.set_skip_first_update(true)
 
 	if new_cell.get_number() < min_life:
 		new_cell.set_number(min_life)
@@ -85,22 +95,26 @@ func _replace_cell(old_cell: Cell, new_cell: Cell, min_life: int = 0) -> Cell:
 	var index = _cells.find(old_cell)
 	_cells[index] = new_cell
 
-	old_cell.queue_free()
+	old_cell.die()
 
 	return new_cell
 
 
 func _cell_dead(cell: Cell) -> void:
-	if cell is ExplosiveCell:
+	if cell is ExplosiveCell and not cell.is_exploding():
 		_explode_cell(cell)
 
 
-func _explode_cell(cell: ExplosiveCell, radius: int = 2) -> void:
+func _explode_cell(cell: ExplosiveCell, radius: int = 1) -> void:
+	cell.explode()
 	var cell_position = _get_pos_from_cell(cell)
 
 	for x in range(-radius, radius + 1):
 		for y in range(-radius, radius + 1):
 			var pos = cell_position + Vector2i(x, y)
+			if x == 0 and y == 0:
+				continue
+
 			var c = _get_cell_from_pos(pos)
 			if c == null:
 				continue
@@ -108,26 +122,28 @@ func _explode_cell(cell: ExplosiveCell, radius: int = 2) -> void:
 			if c is ExplosiveCell:
 				continue
 			else:
-				## reduce the number of the cell by a normal random number
-				## with mean 5 and standard deviation 2
+				# reduce the number of the cell by a normal random number
 				var delta = max(2, int(randfn(5, 2)))
 				c.decrement_number(delta)
+				c.update()
 
 
-func _grow_cell(cell: GrowthCell) -> void:
-	var cell_position = _get_pos_from_cell(cell)
-
+func _grow_cell(cell_position: Vector2i) -> void:
 	for x in range(-1, 2):
 		for y in range(-1, 2):
 			var pos = Vector2i(x, y) + cell_position
 			if pos.x < 0 or pos.x >= _max_cells.x or pos.y < 0 or pos.y >= _max_cells.y:
 				continue
 
+			var old_cell = _get_cell_from_pos(pos)
+			if old_cell != null and not old_cell.is_dead():
+				continue
+
 			var new_cell = CellFactory.create_random_cell(_base_cell_probability)
 			var index = _max_cells.y * pos.y + pos.x
 			var new_cell_position = Vector2(pos.x, pos.y) * cell_size + _level_area.position
 
-			_create_cell(new_cell, new_cell_position, index)
+			_create_cell(new_cell, new_cell_position, index, true)
 
 
 func _get_cell_from_mouse(mouse_pos: Vector2) -> Cell:
@@ -200,14 +216,19 @@ func _reset_active_cells() -> void:
 func _delete_active_cells() -> void:
 	_active_rect.reset()
 
+	var to_grow = []
+
 	for c in _active_cells:
 		if c is GrowthCell:
-			_grow_cell(c)
+			to_grow.append(_get_pos_from_cell(c))
 
-		if c is SpecialCell and randf() < c.get_replace_ratio():
+		elif c is SpecialCell and randf() < c.get_replace_ratio():
 			_replace_special_cell()
 
 		c.queue_free()
+
+	for pos in to_grow:
+		_grow_cell(pos)
 
 
 func _get_active_cells_sum() -> int:
@@ -251,10 +272,7 @@ func _replace_special_cell() -> void:
 
 
 func _update_cells() -> void:
-	for c in _cells:
-		if not c:
-			continue
-
+	for c in _cells_container.get_children():
 		c.update()
 
 
@@ -293,6 +311,7 @@ func _is_game_over() -> bool:
 
 
 func _input(event) -> void:
+	# check that the envent is mouse-related
 	if not event is InputEventMouse:
 		return
 
@@ -300,6 +319,14 @@ func _input(event) -> void:
 	var mouse_inside = _level_area.get_rect().has_point(event.position)
 	if not mouse_inside:
 		return
+
+	# check if any cell is currently exploding
+	for c in _cells:
+		if c == null:
+			continue
+
+		if c is ExplosiveCell and c.is_exploding():
+			return
 
 	if event is InputEventMouseButton:
 		if event.button_index == 1:

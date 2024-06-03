@@ -37,6 +37,6 @@ func post_inner_update() -> void:
 
 
 func _update_color() -> void:
-	var l = float(get_number()) / 10.0 * 0.5
-	var c = _special_color.lerp(inner.get_background().get_background_color(), l)
-	set_background(c)
+	var bg = _special_color.lerp(inner.get_background_color().get_background_color(), 0.9)
+	set_background_color(bg)
+	set_border_color(_special_color)

@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cquyj2pi7laap"]
+[gd_scene load_steps=8 format=3 uid="uid://cquyj2pi7laap"]
 
 [ext_resource type="Script" path="res://scripts/cell/inner_cell.gd" id="1_yes2u"]
 [ext_resource type="Theme" uid="uid://6mv46xs075br" path="res://scenes/themes/cell_theme.tres" id="2_5ir4g"]
 [ext_resource type="PackedScene" uid="uid://dundat1ikjce" path="res://scenes/cell/cell_background.tscn" id="3_6ap0t"]
-[ext_resource type="PackedScene" uid="uid://bup1qd14gge4f" path="res://scenes/cell/fade_out_rect.tscn" id="3_41ds2"]
-[ext_resource type="PackedScene" uid="uid://oromwdj7aarb" path="res://scenes/cell/fade_in_rect.tscn" id="4_ohrrh"]
+[ext_resource type="PackedScene" uid="uid://bup1qd14gge4f" path="res://scenes/fade/fade_out_rect.tscn" id="4_jsai5"]
+[ext_resource type="PackedScene" uid="uid://oromwdj7aarb" path="res://scenes/fade/fade_in_rect.tscn" id="4_ohrrh"]
+[ext_resource type="PackedScene" uid="uid://dxuwdgd6yuyha" path="res://scenes/fade/fade_out_color_rect.tscn" id="5_ctnuw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2kcxr"]
 size = Vector2(64, 64)
@@ -23,7 +24,9 @@ offset_top = 32.0
 offset_right = 32.0
 offset_bottom = 32.0
 
-[node name="DamageRect" parent="." instance=ExtResource("3_41ds2")]
+[node name="DamageRect" parent="." instance=ExtResource("5_ctnuw")]
+
+[node name="FadeOutRect" parent="." instance=ExtResource("4_jsai5")]
 
 [node name="FadeInRect" parent="." instance=ExtResource("4_ohrrh")]
 
@@ -39,3 +42,20 @@ theme = ExtResource("2_5ir4g")
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="DeathParticles" type="CPUParticles2D" parent="."]
+position = Vector2(32, 32)
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+lifetime_randomness = 0.25
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 220.0
+scale_amount_min = 8.0
+scale_amount_max = 8.0
+
+[connection signal="finished" from="DeathParticles" to="." method="_on_death_particles_finished"]

@@ -4,8 +4,6 @@ extends Area2D
 
 signal dead
 
-var _background: CellBackground
-
 var _number: int
 var _decrease_chance: float
 var _color_palette: Array
@@ -14,9 +12,12 @@ var _size: Vector2
 var _number_label: Label
 var _collision_shape: CollisionShape2D
 var _center_container: CenterContainer
+var _death_particles: CPUParticles2D
 
-var _damage_rect: FadeOutRect
+var _background: CellBackground
+var _damage_rect: FadeOutColorRect
 var _fade_in_rect: FadeInRect
+var _fade_out_rect: FadeOutRect
 
 
 func _init() -> void:
@@ -31,34 +32,36 @@ func _ready() -> void:
 
 	_damage_rect = $DamageRect
 	_fade_in_rect = $FadeInRect
+	_fade_out_rect = $FadeOutRect
+	_death_particles = $DeathParticles
 
-	# colors: ff595e-ff924c-ffca3a-c5ca30-8ac926-52a675-1982c4-4267ac-565aa0-6a4c93
+	var c = Color.from_string("bb0a1e", Color.RED).lerp(_background.get_background_color(), 0.5)
+
+	_damage_rect.set_rect_color(c)
+
+	_fade_in_rect.set_timer_duration(0.25)
+	_fade_out_rect.set_timer_duration(0.25)
+	_damage_rect.set_timer_duration(0.5)
+
+	# colors: ff0000-ff8700-ffd300-deff0a-a1ff0a-0aff99-0aefff-147df5-580aff-be0aff
+	# heh
 	_color_palette = [
-		Color.from_string("#ff595e", "white"),
-		Color.from_string("#ff924c", "white"),
-		Color.from_string("#ffca3a", "white"),
-		Color.from_string("#c5ca30", "white"),
-		Color.from_string("#8ac926", "white"),
-		Color.from_string("#52a675", "white"),
-		Color.from_string("#1982c4", "white"),
-		Color.from_string("#4267ac", "white"),
-		Color.from_string("#565aa0", "white"),
-		Color.from_string("#6a4c93", "white"),
+		Color(1, 0, 0),
+		Color(1, 0.52, 0),
+		Color(1, 0.82, 0),
+		Color(0.87, 1, 0.03),
+		Color(0.63, 1, 0.03),
+		Color(0.03, 1, 0.60),
+		Color(0.03, 0.93, 1),
+		Color(0.07, 0.49, 0.96),
+		Color(0.36, 0.03, 1),
+		Color(0.74, 0.03, 1),
+		Color(0.74, 0.03, 1),
+		Color(1, 0.03, 0.60),
 	]
 
 	_resize()
 	_fade_in_rect.start()
-
-
-#func _process(_delta) -> void:
-#if not _damage_timer.is_stopped():
-#var t = _damage_timer.time_left / _damage_timer.wait_time
-#var e = Easings.ease_out_poly(t)
-#_damage_rect.color.a = e * 0.25
-
-
-func _on_damage_timer_timeout() -> void:
-	_damage_rect.color.a = 0
 
 
 func _resize() -> void:
@@ -88,14 +91,15 @@ func get_number() -> int:
 	return _number
 
 
-func get_background() -> CellBackground:
+func get_background_color() -> CellBackground:
 	return _background
 
 
 func set_number(n: int) -> void:
 	if n <= 0:
-		dead.emit()
-	#
+		die()
+		return
+
 	if n < _number:
 		_damage_rect.start()
 
@@ -103,6 +107,17 @@ func set_number(n: int) -> void:
 	_number_label.text = str(_number)
 
 	_number_label.modulate = _color_palette[_number - 1]
+
+
+func die(exploded: bool = false):
+	if exploded:
+		_damage_rect.start()
+		_death_particles.color = _damage_rect.get_rect_color()
+	else:
+		_fade_out_rect.start()
+		_death_particles.color = _color_palette[max(1, _number)]
+
+	_death_particles.emitting = true
 
 
 func decrement_number(delta: int = 1) -> void:
@@ -120,3 +135,7 @@ func get_decrease_chance() -> float:
 
 func set_decrease_chance(chance: float) -> void:
 	_decrease_chance = clamp(chance, 0, 1)
+
+
+func _on_death_particles_finished():
+	dead.emit()
