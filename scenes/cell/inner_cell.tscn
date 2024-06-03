@@ -52,10 +52,10 @@ initial_velocity_max = 220.0
 scale_amount_min = 8.0
 scale_amount_max = 8.0
 
-[node name="DamageRect" parent="." instance=ExtResource("5_ctnuw")]
-
 [node name="FadeInRect" parent="." instance=ExtResource("4_ohrrh")]
 
 [node name="FadeOutRect" parent="." instance=ExtResource("4_jsai5")]
+
+[node name="DamageRect" parent="." instance=ExtResource("5_ctnuw")]
 
 [connection signal="finished" from="DeathParticles" to="." method="_on_death_particles_finished"]
