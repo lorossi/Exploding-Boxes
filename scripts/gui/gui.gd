@@ -38,9 +38,11 @@ func get_score() -> int:
 
 func set_score(score: int) -> void:
 	_score_label.text = str(score)
-	
+
+
 func get_best_score() -> int:
 	return int(_best_score_label.text)
+
 
 func set_best_score(score: int) -> void:
 	_best_score_label.text = str(score)

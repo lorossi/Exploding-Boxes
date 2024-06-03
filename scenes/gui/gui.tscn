@@ -81,8 +81,9 @@ offset_top = 800.0
 offset_right = 744.0
 offset_bottom = 851.0
 scale = Vector2(0.75, 0.75)
+theme_override_colors/font_color = Color(1, 1, 1, 0.498039)
 theme_override_font_sizes/font_size = 32
-text = "v0.0.1
+text = "version
 "
 horizontal_alignment = 2
 vertical_alignment = 2
