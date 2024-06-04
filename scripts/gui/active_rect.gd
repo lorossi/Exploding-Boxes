@@ -2,9 +2,12 @@ class_name ActiveRect
 
 extends Node2D
 
-var _rect: Rect2
-var _border_color: Color
+signal rect_changed(new_rect: Rect2, old_rect: Rect2)
+signal rect_reset
+
 var _border_width: int
+var _border_color: Color
+var _rect: Rect2
 
 
 func _init() -> void:
@@ -20,8 +23,12 @@ func _draw() -> void:
 	draw_rect(_rect, _border_color, false, _border_width)
 
 
-func reset() -> void:
-	set_draw_rect(Rect2())
+func reset(make_signal: bool = true) -> void:
+	if make_signal:
+		rect_reset.emit()
+
+	_rect = Rect2()
+	queue_redraw()
 
 
 func get_draw_rect() -> Rect2:
@@ -29,6 +36,10 @@ func get_draw_rect() -> Rect2:
 
 
 func set_draw_rect(r: Rect2):
+	if r.is_equal_approx(_rect):
+		return
+
+	rect_changed.emit(_rect, r)
 	_rect = r
 	queue_redraw()
 
