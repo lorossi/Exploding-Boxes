@@ -4,10 +4,9 @@ extends Node2D
 
 signal dead(Cell)
 
-var inner: InnerCell
-
 var _dead: bool
 var _skip_first_update: bool
+var _inner: InnerCell
 
 
 func _init() -> void:
@@ -21,7 +20,7 @@ func update() -> bool:
 		_skip_first_update = false
 		return false
 
-	var changed = inner.update()
+	var changed = _inner.update()
 	post_inner_update()
 
 	return changed
@@ -33,7 +32,7 @@ func is_dead() -> bool:
 
 func die(explode: bool = false) -> void:
 	_dead = true
-	inner.die(explode)
+	_inner.die(explode)
 
 
 func _inner_dead() -> void:
@@ -50,50 +49,48 @@ func post_inner_update() -> void:
 
 
 func _on_inner_cell_ready() -> void:
-	inner = $InnerCell
-	inner.dead.connect(_inner_dead)
-	inner.set_decrease_chance(0.1)
-	# TODO: make an appropriate sound
-	#inner.set_damage_sound("cell_damage")
+	_inner = $InnerCell
+	_inner.dead.connect(_inner_dead)
+	_inner.set_decrease_chance(0.1)
 	post_inner_ready()
 
 
 func set_number(n: int) -> void:
-	if inner != null:
-		inner.set_number(n)
+	if _inner != null:
+		_inner.set_number(n)
 
 
 func decrement_number(delta: int = 1) -> void:
-	if inner != null:
-		inner.decrement_number(delta)
+	if _inner != null:
+		_inner.decrement_number(delta)
 
 
 func get_number() -> int:
-	return inner.get_number()
+	return _inner.get_number()
 
 
 func get_size() -> Vector2:
-	return inner.get_size()
+	return _inner.get_size()
 
 
 func set_size(size: Vector2) -> void:
-	inner.set_size(size)
+	_inner.set_size(size)
 
 
 func get_background_color() -> Color:
-	return inner.get_background_color().get_background_color()
+	return _inner.get_background_color().get_background_color()
 
 
 func set_background_color(color: Color) -> void:
-	inner.get_background_color().set_background_color(color)
+	_inner.get_background_color().set_background_color(color)
 
 
 func get_border_color() -> Color:
-	return inner.get_background_color().get_border_color()
+	return _inner.get_background_color().get_border_color()
 
 
 func set_border_color(color: Color) -> void:
-	inner.get_background_color().set_border_color(color)
+	_inner.get_background_color().set_border_color(color)
 
 
 func get_score() -> int:
@@ -102,6 +99,14 @@ func get_score() -> int:
 
 func get_skip_first_update() -> bool:
 	return _skip_first_update
+
+
+func get_decrease_chance() -> float:
+	return _inner.get_decrease_chance()
+
+
+func set_decrease_chance(chance: float) -> void:
+	_inner.set_decrease_chance(chance)
 
 
 func set_skip_first_update(skip: bool) -> void:
