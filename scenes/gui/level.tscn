@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cn5qn75mxiokf"]
+[gd_scene load_steps=6 format=3 uid="uid://cn5qn75mxiokf"]
 
 [ext_resource type="Script" path="res://scripts/gui/level.gd" id="1_16c7t"]
 [ext_resource type="PackedScene" uid="uid://byvrsvu08omp3" path="res://scenes/gui/gui.tscn" id="2_fiagx"]
 [ext_resource type="PackedScene" uid="uid://cptbi1wmj4q8r" path="res://scenes/gui/game_over.tscn" id="3_jkiha"]
 [ext_resource type="PackedScene" uid="uid://uq1vkp0jubww" path="res://scenes/gui/active_rect.tscn" id="3_k54h8"]
+[ext_resource type="PackedScene" uid="uid://chtm0s6rncp54" path="res://scenes/gui/sound_player.tscn" id="3_lompf"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_16c7t")
@@ -23,6 +24,8 @@ color = Color(0.12549, 0.12549, 0.12549, 0)
 [node name="CellsContainer" type="Node2D" parent="."]
 
 [node name="ActiveRect" parent="." instance=ExtResource("3_k54h8")]
+
+[node name="SoundPlayer" parent="." instance=ExtResource("3_lompf")]
 
 [node name="Gui" parent="." instance=ExtResource("2_fiagx")]
 

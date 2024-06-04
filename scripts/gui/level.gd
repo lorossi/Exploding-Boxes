@@ -2,10 +2,9 @@ class_name Level
 
 extends Node2D
 
-@export var cell_size: int = 64
-
 var _mouse_pressed: bool
 
+var _cell_size: int
 var _score: int
 
 var _base_cell_probability: float = 0.75
@@ -24,6 +23,11 @@ var _level_area: ColorRect
 var _active_rect: ActiveRect
 var _gui: GUI
 var _game_over: GameOver
+var _sound_player: SoundPlayer
+
+
+func _init() -> void:
+	_cell_size = 64
 
 
 func _ready() -> void:
@@ -32,13 +36,17 @@ func _ready() -> void:
 	_level_area = $LevelArea
 	_gui = $Gui
 	_game_over = $GameOver
+	_sound_player = $SoundPlayer
 
 	_gui.reset.connect(_restart_game)
 	_gui.skip.connect(_skip_turn)
 
 	_game_over.reset.connect(_restart_game)
 
-	_max_cells = _level_area.size / cell_size
+	_active_rect.rect_changed.connect(_on_rect_size_changed)
+	_active_rect.rect_reset.connect(_on_rect_size_reset)
+
+	_max_cells = _level_area.size / _cell_size
 	_restart_game()
 
 
@@ -53,7 +61,7 @@ func _restart_game() -> void:
 	for y in range(_max_cells.y):
 		for x in range(_max_cells.x):
 			var cell = CellFactory.create_random_cell(_base_cell_probability)
-			var cell_position = Vector2(x, y) * cell_size + _level_area.position
+			var cell_position = Vector2(x, y) * _cell_size + _level_area.position
 			_create_cell(cell, cell_position)
 
 	_score = 0
@@ -63,6 +71,9 @@ func _restart_game() -> void:
 
 func _skip_turn() -> void:
 	if _is_game_over():
+		return
+
+	if _is_any_cell_exploding():
 		return
 
 	while true:
@@ -80,7 +91,7 @@ func _create_cell(
 
 	cell.position = pos
 	cell.dead.connect(_on_cell_dead)
-	cell.set_size(Vector2.ONE * cell_size)
+	cell.set_size(Vector2.ONE * _cell_size)
 	cell.set_number((randi() % 9) + 1)
 	cell.set_skip_first_update(skip_first_update)
 
@@ -112,12 +123,36 @@ func _replace_cell(old_cell: Cell, new_cell: Cell, min_life: int = 0) -> Cell:
 
 
 func _on_cell_dead(cell: Cell) -> void:
+	var explosion_played: bool = false
+
 	if cell is ExplosiveCell and not cell.is_exploding():
 		_explode_cell(cell)
 
+		if not explosion_played:
+			_sound_player.play_cell_explosion()
+			explosion_played = true
+
+
+func _on_rect_size_changed(new_rect: Rect2, old_rect: Rect2) -> void:
+	var new_a = new_rect.get_area()
+	var old_a = old_rect.get_area()
+
+	if new_a == old_a or new_a == 0:
+		return
+
+	var area_ratio = new_a / _level_area.get_rect().get_area()
+	var pitch = remap(area_ratio, 0, 1, 0.5, 2)
+	if new_a > old_a:
+		_sound_player.play_rect_up(pitch)
+		return
+	_sound_player.play_rect_down(pitch)
+
+
+func _on_rect_size_reset() -> void:
+	_sound_player.play_rect_reset()
+
 
 func _explode_cell(cell: ExplosiveCell, radius: int = 1) -> void:
-	cell.explode()
 	var cell_position = _get_pos_from_cell(cell)
 
 	for x in range(-radius, radius + 1):
@@ -152,7 +187,7 @@ func _grow_cell(cell_position: Vector2i) -> void:
 
 			var new_cell = CellFactory.create_random_cell(_base_cell_probability)
 			var index = _max_cells.y * pos.y + pos.x
-			var new_cell_position = Vector2(pos.x, pos.y) * cell_size + _level_area.position
+			var new_cell_position = Vector2(pos.x, pos.y) * _cell_size + _level_area.position
 
 			_create_cell(new_cell, new_cell_position, index, true)
 
@@ -185,7 +220,7 @@ func _get_cell_from_pos(pos: Vector2i) -> Cell:
 
 
 func _get_pos_from_mouse(mouse_pos: Vector2) -> Vector2i:
-	return Vector2i((mouse_pos - _level_area.position) / cell_size)
+	return Vector2i((mouse_pos - _level_area.position) / _cell_size)
 
 
 func _get_cells_bbox(cells: Array) -> Rect2:
@@ -215,18 +250,19 @@ func _get_cells_bbox(cells: Array) -> Rect2:
 
 	return Rect2(
 		Vector2(min_x, min_y),
-		Vector2(max_x - min_x + cell_size, max_y - min_y + cell_size),
+		Vector2(max_x - min_x + _cell_size, max_y - min_y + _cell_size),
 	)
 
 
 func _reset_active_cells() -> void:
-	_active_rect.reset()
 	_active_cells = []
 
 
-func _delete_active_cells() -> void:
-	_active_rect.reset()
+func _reset_active_rect(make_signal: bool = true) -> void:
+	_active_rect.reset(make_signal)
 
+
+func _delete_active_cells() -> void:
 	var to_grow = []
 
 	for c in _active_cells:
@@ -241,8 +277,10 @@ func _delete_active_cells() -> void:
 
 			c.die(false)
 
-	for pos in to_grow:
-		_grow_cell(pos)
+	if to_grow.size() > 0:
+		_sound_player.play_cell_grown()
+		for pos in to_grow:
+			_grow_cell(pos)
 
 
 func _get_active_cells_sum() -> int:
@@ -262,8 +300,6 @@ func _get_active_cells_score() -> int:
 
 
 func _update_active_cells() -> void:
-	_reset_active_cells()
-
 	_active_cells = _cells_between(_drag_started, _drag_position)
 	_active_rect.set_draw_rect(_get_cells_bbox(_active_cells))
 
@@ -290,6 +326,9 @@ func _update_cells() -> bool:
 	for c in _cells_container.get_children():
 		if c.update():
 			changed = true
+
+	if changed:
+		_sound_player.play_cell_damaged()
 
 	return changed
 
@@ -337,6 +376,17 @@ func _get_board_sum() -> int:
 	return total
 
 
+func _is_any_cell_exploding() -> bool:
+	for c in _cells:
+		if c == null or not c is ExplosiveCell:
+			continue
+
+		if c.is_exploding():
+			return true
+
+	return false
+
+
 func _process(_delta):
 	if _is_game_over():
 		_game_over.visible = true
@@ -347,45 +397,57 @@ func _process(_delta):
 				c.die()
 
 
+func _handle_mouse_button(event: InputEventMouseButton) -> void:
+	# check that the event is a left click
+	if event.button_index != 1:
+		return
+
+	# check that the mouse is inside the level area
+	var mouse_inside = _level_area.get_rect().has_point(event.position)
+	if not mouse_inside:
+		_mouse_pressed = false
+		_reset_active_cells()
+		_reset_active_rect()
+		return
+
+	if _mouse_pressed:
+		_mouse_pressed = false
+		if _get_active_cells_sum() == 10:
+			_score += _get_active_cells_score()
+			_delete_active_cells()
+			_reset_active_rect(false)
+			_update_cells()
+			_sound_player.play_cell_gathered()
+			_gui.set_score(_score)
+			if _score > _gui.get_best_score():
+				_gui.set_best_score(_score)
+		else:
+			_reset_active_cells()
+			_reset_active_rect(true)
+
+	else:
+		_drag_started = event.position
+		_drag_position = event.position
+		_mouse_pressed = true
+
+
+func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
+	if (_drag_position - event.position).length() <= _cell_size / 4.0:
+		return
+	_update_active_cells()
+	_drag_position = event.position
+
+
 func _input(event) -> void:
 	# check that the envent is mouse-related
 	if not event is InputEventMouse:
 		return
 
 	# check if any cell is currently exploding
-	for c in _cells:
-		if c == null:
-			continue
-
-		if c is ExplosiveCell and c.is_exploding():
-			return
+	if _is_any_cell_exploding():
+		return
 
 	if event is InputEventMouseButton:
-		# check that the mouse is inside the level area
-		var mouse_inside = _level_area.get_rect().has_point(event.position)
-		if not mouse_inside:
-			_mouse_pressed = false
-			_reset_active_cells()
-			return
-
-		if event.button_index == 1:
-			if not _mouse_pressed:
-				_drag_started = event.position
-				_drag_position = event.position
-				_mouse_pressed = true
-			else:
-				_mouse_pressed = false
-				if _get_active_cells_sum() == 10:
-					_score += _get_active_cells_score()
-					_delete_active_cells()
-					_update_cells()
-					_gui.set_score(_score)
-					if _score > _gui.get_best_score():
-						_gui.set_best_score(_score)
-				else:
-					_reset_active_cells()
-
+		_handle_mouse_button(event)
 	elif event is InputEventMouseMotion and _mouse_pressed:
-		if (_drag_position - event.position).length() > 8:
-			_update_active_cells()
-			_drag_position = event.position
+		_handle_mouse_motion(event)

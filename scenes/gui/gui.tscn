@@ -51,28 +51,22 @@ layout_mode = 2
 text = "0"
 vertical_alignment = 1
 
-[node name="SkipButtonContainer" type="MarginContainer" parent="."]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 0
-offset_left = 40.0
-offset_top = 752.0
-offset_right = 296.0
-offset_bottom = 811.0
-
-[node name="SkipButton" type="Button" parent="SkipButtonContainer"]
+[node name="SkipButton" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
-text = "skip a turn"
-
-[node name="RestartButtonContainer" type="MarginContainer" parent="."]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 0
-offset_left = 424.0
+offset_left = 48.0
 offset_top = 752.0
-offset_right = 680.0
+offset_right = 240.0
 offset_bottom = 811.0
+text = "skip"
 
-[node name="RestartButton" type="Button" parent="RestartButtonContainer"]
+[node name="RestartButton" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
+offset_left = 480.0
+offset_top = 752.0
+offset_right = 672.0
+offset_bottom = 811.0
 text = "restart"
 
 [node name="VersionLabel" type="Label" parent="."]
