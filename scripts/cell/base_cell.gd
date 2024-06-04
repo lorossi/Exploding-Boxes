@@ -6,11 +6,17 @@ signal dead(Cell)
 
 var inner: InnerCell
 
-var _dead: bool = false
-var _skip_first_update: bool = false
+var _dead: bool
+var _skip_first_update: bool
+
+
+func _init() -> void:
+	_dead = false
+	_skip_first_update = false
 
 
 func update() -> bool:
+	# returns true if the cell has changed
 	if _skip_first_update:
 		_skip_first_update = false
 		return false
@@ -47,6 +53,8 @@ func _on_inner_cell_ready() -> void:
 	inner = $InnerCell
 	inner.dead.connect(_inner_dead)
 	inner.set_decrease_chance(0.1)
+	# TODO: make an appropriate sound
+	#inner.set_damage_sound("cell_damage")
 	post_inner_ready()
 
 
@@ -105,4 +113,4 @@ func copy_cell(other: Cell) -> void:
 	set_size(other.get_size())
 	set_background_color(other.get_background_color())
 	set_border_color(other.get_border_color())
-	position = other.position
+	set_position(other.get_position())
