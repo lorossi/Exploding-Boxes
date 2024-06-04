@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid="uid://ds2qdbuow6m5b"]
+
+[ext_resource type="Theme" uid="uid://cspbh3wsg5xg6" path="res://scenes/themes/gui_theme.tres" id="1_orgnn"]
+[ext_resource type="Script" path="res://scripts/gui/main_menu.gd" id="2_x1ews"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("1_orgnn")
+script = ExtResource("2_x1ews")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 720.0
+offset_bottom = 840.0
+color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 696.0
+offset_bottom = 134.0
+theme_override_font_sizes/font_size = 128
+text = "Exploding Boxes"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_top = 192.0
+offset_right = 720.0
+offset_bottom = 840.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="StartContainer" type="CenterContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/StartContainer"]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="CenterContainer/VBoxContainer/StartContainer/MarginContainer"]
+custom_minimum_size = Vector2(384, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 128
+text = "start"
+
+[node name="TutorialContainer" type="CenterContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/TutorialContainer"]
+layout_mode = 2
+
+[node name="TutorialButton" type="Button" parent="CenterContainer/VBoxContainer/TutorialContainer/MarginContainer"]
+custom_minimum_size = Vector2(384, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 128
+text = "tutorial"
+
+[node name="ExitContainer" type="CenterContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/ExitContainer"]
+layout_mode = 2
+
+[node name="ExitButton" type="Button" parent="CenterContainer/VBoxContainer/ExitContainer/MarginContainer"]
+custom_minimum_size = Vector2(384, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 128
+text = "exit"
