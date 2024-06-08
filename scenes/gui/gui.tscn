@@ -19,9 +19,9 @@ script = ExtResource("2_suiqi")
 layout_mode = 1
 offset_right = 184.0
 offset_bottom = 83.0
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 32
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 64
 theme_override_constants/margin_bottom = 0
 
 [node name="ScoreContainer" type="HBoxContainer" parent="ScoreMargin"]
@@ -30,12 +30,14 @@ size_flags_vertical = 0
 
 [node name="ScorePrefix" type="Label" parent="ScoreMargin/ScoreContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 64
 text = "score:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="ScoreLabel" type="Label" parent="ScoreMargin/ScoreContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 64
 text = "0"
 vertical_alignment = 1
 
@@ -48,8 +50,8 @@ offset_left = -172.0
 offset_bottom = 83.0
 grow_horizontal = 0
 theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 64
 
 [node name="BestScoreContainer" type="HBoxContainer" parent="BestStoreMargin"]
 layout_mode = 2
@@ -58,15 +60,17 @@ alignment = 1
 
 [node name="BestScorePrefix" type="Label" parent="BestStoreMargin/BestScoreContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 64
 text = "best:"
 horizontal_alignment = 2
 
 [node name="BestScoreLabel" type="Label" parent="BestStoreMargin/BestScoreContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 64
 text = "0"
 horizontal_alignment = 2
 
-[node name="SkipButtonContainer" type="MarginContainer" parent="."]
+[node name="SkipButtonMargin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -76,15 +80,15 @@ offset_right = 256.0
 grow_vertical = 0
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_bottom = 32
 
-[node name="SkipButton" type="Button" parent="SkipButtonContainer"]
+[node name="SkipButton" type="Button" parent="SkipButtonMargin"]
 custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
 size_flags_vertical = 8
 text = "skip"
 
-[node name="MainMenuContainer" type="MarginContainer" parent="."]
+[node name="MainMenuMargin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -98,15 +102,15 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_bottom = 32
 
-[node name="MainMenuButton" type="Button" parent="MainMenuContainer"]
+[node name="MainMenuButton" type="Button" parent="MainMenuMargin"]
 custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
 size_flags_vertical = 8
 text = "go back"
 
-[node name="RestartContainer" type="MarginContainer" parent="."]
+[node name="RestartMargin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -119,27 +123,34 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_bottom = 32
 
-[node name="RestartButton" type="Button" parent="RestartContainer"]
+[node name="RestartButton" type="Button" parent="RestartMargin"]
 custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
 size_flags_vertical = 8
 text = "restart"
 
-[node name="VersionLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 812.0
-offset_top = 955.0
-offset_right = 924.0
-offset_bottom = 1006.0
-scale = Vector2(0.75, 0.75)
+[node name="VersionMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -116.0
+offset_top = -26.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+
+[node name="VersionLabel" type="Label" parent="VersionMargin"]
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 0.498039)
 theme_override_font_sizes/font_size = 32
 text = "version
 "
-horizontal_alignment = 2
-vertical_alignment = 2
 
 [node name="RestartConfirmation" parent="." instance=ExtResource("3_iairv")]
 visible = false

@@ -29,7 +29,7 @@ var _sound_player: SoundPlayer
 
 func _init() -> void:
 	_cells_size = 64 * Vector2.ONE
-	_cell_cols = 13
+	_cell_cols = 10
 	_base_cell_probability = 0.75
 
 
@@ -41,6 +41,12 @@ func _ready() -> void:
 	_game_over = $GameOver
 	_sound_player = $SoundPlayer
 
+	_connect()
+	_resize()
+	_restart_game()
+
+
+func _connect() -> void:
 	_gui.reset.connect(_restart_game)
 	_gui.skip.connect(_skip_turn)
 
@@ -49,11 +55,11 @@ func _ready() -> void:
 	_active_rect.rect_changed.connect(_on_rect_size_changed)
 	_active_rect.rect_reset.connect(_on_rect_size_reset)
 
+
+func _resize() -> void:
 	_max_cells = _cell_cols * Vector2i.ONE
 	_level_area.position = (get_viewport_rect().size - Vector2(_max_cells) * _cells_size) / 2
 	_level_area.size = _cells_size * Vector2(_max_cells)
-
-	_restart_game()
 
 
 func _restart_game() -> void:

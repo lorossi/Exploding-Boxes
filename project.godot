@@ -23,8 +23,8 @@ SoundManagerInstance="*res://scripts/global/sound_manager.gd"
 
 [display]
 
-window/size/viewport_width=896
-window/size/viewport_height=992
+window/size/viewport_width=768
+window/size/viewport_height=896
 window/size/resizable=false
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_width"
