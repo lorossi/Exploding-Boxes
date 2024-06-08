@@ -22,58 +22,46 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.784314)
 
-[node name="GameOverContainer" type="CenterContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.152
-anchor_right = 1.0
-anchor_bottom = 0.274
-offset_top = 0.319992
-offset_bottom = -0.160019
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+offset_top = 106.0
+offset_right = 896.0
+offset_bottom = 106.0
 
-[node name="Label" type="Label" parent="GameOverContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 128
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 128
 text = "game over"
+horizontal_alignment = 1
 
-[node name="ScoreContainer" type="CenterContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.152
-anchor_right = 1.0
-anchor_bottom = 0.274
-offset_top = 128.32
-offset_bottom = 127.84
-
-[node name="ScoreContainer" type="HBoxContainer" parent="ScoreContainer"]
+[node name="ScoreContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+alignment = 1
 
-[node name="ScorePrefix" type="Label" parent="ScoreContainer/ScoreContainer"]
+[node name="ScorePrefix" type="Label" parent="MarginContainer/VBoxContainer/ScoreContainer"]
 layout_mode = 2
 text = "score:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="ScoreContainer/ScoreContainer"]
+[node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer/ScoreContainer"]
 layout_mode = 2
 text = "0"
 vertical_alignment = 1
 
-[node name="RestartContainer" type="CenterContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.01
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -8.4
-
-[node name="RestartButtonContainer" type="MarginContainer" parent="RestartContainer"]
-custom_minimum_size = Vector2(256, 0)
+[node name="RestartButtonContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_right = 32
 
-[node name="RestartButton" type="Button" parent="RestartContainer/RestartButtonContainer"]
+[node name="RestartButton" type="Button" parent="MarginContainer/VBoxContainer/RestartButtonContainer"]
+custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 text = "restart"

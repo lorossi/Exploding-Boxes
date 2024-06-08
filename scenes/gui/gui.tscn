@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://byvrsvu08omp3"]
+[gd_scene load_steps=5 format=3 uid="uid://byvrsvu08omp3"]
 
 [ext_resource type="Theme" uid="uid://cspbh3wsg5xg6" path="res://scenes/themes/gui_theme.tres" id="1_70ceh"]
 [ext_resource type="Script" path="res://scripts/gui/gui.gd" id="2_suiqi"]
 [ext_resource type="PackedScene" uid="uid://c5p4qh7pvymdg" path="res://scenes/gui/restart_confirmation.tscn" id="3_iairv"]
+[ext_resource type="PackedScene" uid="uid://c8uk62r4h5jw6" path="res://scenes/gui/exit_confirmation.tscn" id="4_luh6f"]
 
 [node name="Gui" type="Control"]
 layout_mode = 3
@@ -14,67 +15,124 @@ grow_vertical = 2
 theme = ExtResource("1_70ceh")
 script = ExtResource("2_suiqi")
 
-[node name="ScoreContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_left = 48.0
-offset_top = 8.0
-offset_right = 208.0
-offset_bottom = 59.0
+[node name="ScoreMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+offset_right = 184.0
+offset_bottom = 83.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 0
 
-[node name="ScorePrefix" type="Label" parent="ScoreContainer"]
+[node name="ScoreContainer" type="HBoxContainer" parent="ScoreMargin"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ScorePrefix" type="Label" parent="ScoreMargin/ScoreContainer"]
 layout_mode = 2
 text = "score:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="ScoreContainer"]
+[node name="ScoreLabel" type="Label" parent="ScoreMargin/ScoreContainer"]
 layout_mode = 2
 text = "0"
 vertical_alignment = 1
 
-[node name="BestScoreContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_left = 408.0
-offset_top = 8.0
-offset_right = 680.0
-offset_bottom = 59.0
-alignment = 2
+[node name="BestStoreMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -172.0
+offset_bottom = 83.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
 
-[node name="BestScorePrefix" type="Label" parent="BestScoreContainer"]
+[node name="BestScoreContainer" type="HBoxContainer" parent="BestStoreMargin"]
+layout_mode = 2
+size_flags_vertical = 0
+alignment = 1
+
+[node name="BestScorePrefix" type="Label" parent="BestStoreMargin/BestScoreContainer"]
 layout_mode = 2
 text = "best:"
 horizontal_alignment = 2
-vertical_alignment = 1
 
-[node name="BestScoreLabel" type="Label" parent="BestScoreContainer"]
+[node name="BestScoreLabel" type="Label" parent="BestStoreMargin/BestScoreContainer"]
 layout_mode = 2
 text = "0"
-vertical_alignment = 1
+horizontal_alignment = 2
 
-[node name="SkipButton" type="Button" parent="."]
-custom_minimum_size = Vector2(128, 0)
+[node name="SkipButtonContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -67.0
+offset_right = 256.0
+grow_vertical = 0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="SkipButton" type="Button" parent="SkipButtonContainer"]
+custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
-offset_left = 48.0
-offset_top = 752.0
-offset_right = 240.0
-offset_bottom = 811.0
+size_flags_vertical = 8
 text = "skip"
 
-[node name="RestartButton" type="Button" parent="."]
-custom_minimum_size = Vector2(128, 0)
+[node name="MainMenuContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -83.0
+offset_right = 128.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="MainMenuButton" type="Button" parent="MainMenuContainer"]
+custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
-offset_left = 480.0
-offset_top = 752.0
-offset_right = 672.0
-offset_bottom = 811.0
+size_flags_vertical = 8
+text = "go back"
+
+[node name="RestartContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -256.0
+offset_top = -51.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="RestartButton" type="Button" parent="RestartContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 8
 text = "restart"
 
 [node name="VersionLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 632.0
-offset_top = 800.0
-offset_right = 744.0
-offset_bottom = 851.0
+offset_left = 812.0
+offset_top = 955.0
+offset_right = 924.0
+offset_bottom = 1006.0
 scale = Vector2(0.75, 0.75)
 theme_override_colors/font_color = Color(1, 1, 1, 0.498039)
 theme_override_font_sizes/font_size = 32
@@ -86,4 +144,8 @@ vertical_alignment = 2
 [node name="RestartConfirmation" parent="." instance=ExtResource("3_iairv")]
 visible = false
 top_level = true
+layout_mode = 1
+
+[node name="ExitConfirmation" parent="." instance=ExtResource("4_luh6f")]
+visible = false
 layout_mode = 1

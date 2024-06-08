@@ -37,6 +37,6 @@ func post_inner_update() -> void:
 
 
 func _update_color() -> void:
-	var bg = _special_color.lerp(_inner.get_background_color().get_background_color(), 0.9)
+	var bg = _special_color.lerp(_inner.get_background().get_background_color(), 0.9)
 	set_background_color(bg)
 	set_border_color(_special_color)

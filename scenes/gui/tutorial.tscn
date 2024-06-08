@@ -1,0 +1,107 @@
+[gd_scene load_steps=3 format=3 uid="uid://cl4drchht17uh"]
+
+[ext_resource type="Theme" uid="uid://cspbh3wsg5xg6" path="res://scenes/themes/gui_theme.tres" id="1_jlj3l"]
+[ext_resource type="Script" path="res://scripts/gui/tutorial.gd" id="2_a7qgi"]
+
+[node name="Tutorial" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_jlj3l")
+theme_type_variation = &"tutorial"
+script = ExtResource("2_a7qgi")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.784314)
+
+[node name="TutorialContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 64
+
+[node name="InnerContainer" type="VBoxContainer" parent="TutorialContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Title" type="Label" parent="TutorialContainer/InnerContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 128
+text = "tutorial"
+horizontal_alignment = 1
+
+[node name="TextContainer" type="VBoxContainer" parent="TutorialContainer/InnerContainer"]
+layout_mode = 2
+
+[node name="TutorialText8" type="Label" parent="TutorialContainer/InnerContainer/TextContainer"]
+custom_minimum_size = Vector2(800, 64)
+layout_mode = 2
+text = "Select groups of blocks whose sum makes 10 to delete them. The game ends when no remaining blocks are found on the screen."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="TutorialText6" type="Label" parent="TutorialContainer/InnerContainer/TextContainer"]
+custom_minimum_size = Vector2(800, 64)
+layout_mode = 2
+text = "After each turn, the blocks are randomly damaged. When the score of a block reaches zero, it dies."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="TutorialText3" type="Label" parent="TutorialContainer/InnerContainer/TextContainer"]
+custom_minimum_size = Vector2(800, 64)
+layout_mode = 2
+text = "Deleting one block grants one point.
+"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="TutorialText2" type="Label" parent="TutorialContainer/InnerContainer/TextContainer"]
+custom_minimum_size = Vector2(800, 64)
+layout_mode = 2
+text = "Colored blocks have special rules:
+Red blocks explode if their score reaches 0.
+Green blocks regrow neighbouring blocks when deleted.
+Blue blocks are worth 5 points."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="TutorialText" type="Label" parent="TutorialContainer/InnerContainer/TextContainer"]
+custom_minimum_size = Vector2(800, 64)
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ButtonContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -115.0
+offset_right = 128.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 16
+
+[node name="ExitButton" type="Button" parent="ButtonContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 8
+text = "ok..."

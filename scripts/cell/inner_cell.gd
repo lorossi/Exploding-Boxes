@@ -90,7 +90,7 @@ func get_number() -> int:
 	return _number
 
 
-func get_background_color() -> CellBackground:
+func get_background() -> CellBackground:
 	return _background
 
 

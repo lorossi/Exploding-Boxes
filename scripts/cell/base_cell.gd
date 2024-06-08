@@ -78,19 +78,19 @@ func set_size(size: Vector2) -> void:
 
 
 func get_background_color() -> Color:
-	return _inner.get_background_color().get_background_color()
+	return _inner.get_background().get_background_color()
 
 
 func set_background_color(color: Color) -> void:
-	_inner.get_background_color().set_background_color(color)
+	_inner.get_background().set_background_color(color)
 
 
 func get_border_color() -> Color:
-	return _inner.get_background_color().get_border_color()
+	return _inner.get_background().get_border_color()
 
 
 func set_border_color(color: Color) -> void:
-	_inner.get_background_color().set_border_color(color)
+	_inner.get_background().set_border_color(color)
 
 
 func get_score() -> int:

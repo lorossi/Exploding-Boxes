@@ -1,15 +1,16 @@
 class_name Level
 
-extends Node2D
+extends Control
 
 var _mouse_pressed: bool
 
-var _cell_size: int
+var _cell_cols: int
 var _score: int
 
-var _base_cell_probability: float = 0.75
+var _base_cell_probability: float
 
 var _drag_started: Vector2
+var _cells_size: Vector2
 var _drag_position: Vector2
 
 var _max_cells: Vector2i
@@ -27,7 +28,9 @@ var _sound_player: SoundPlayer
 
 
 func _init() -> void:
-	_cell_size = 64
+	_cells_size = 64 * Vector2.ONE
+	_cell_cols = 13
+	_base_cell_probability = 0.75
 
 
 func _ready() -> void:
@@ -46,7 +49,10 @@ func _ready() -> void:
 	_active_rect.rect_changed.connect(_on_rect_size_changed)
 	_active_rect.rect_reset.connect(_on_rect_size_reset)
 
-	_max_cells = _level_area.size / _cell_size
+	_max_cells = _cell_cols * Vector2i.ONE
+	_level_area.position = (get_viewport_rect().size - Vector2(_max_cells) * _cells_size) / 2
+	_level_area.size = _cells_size * Vector2(_max_cells)
+
 	_restart_game()
 
 
@@ -61,7 +67,7 @@ func _restart_game() -> void:
 	for y in range(_max_cells.y):
 		for x in range(_max_cells.x):
 			var cell = CellFactory.create_random_cell(_base_cell_probability)
-			var cell_position = Vector2(x, y) * _cell_size + _level_area.position
+			var cell_position = Vector2(x, y) * _cells_size + _level_area.position
 			_create_cell(cell, cell_position)
 
 	_score = 0
@@ -91,7 +97,7 @@ func _create_cell(
 
 	cell.position = pos
 	cell.dead.connect(_on_cell_dead)
-	cell.set_size(Vector2.ONE * _cell_size)
+	cell.set_size(Vector2.ONE * _cells_size)
 	cell.set_number((randi() % 9) + 1)
 	cell.set_skip_first_update(skip_first_update)
 
@@ -134,6 +140,9 @@ func _on_cell_dead(cell: Cell) -> void:
 
 
 func _on_rect_size_changed(new_rect: Rect2, old_rect: Rect2) -> void:
+	if not new_rect.has_area():
+		return
+
 	var new_a = new_rect.get_area()
 	var old_a = old_rect.get_area()
 
@@ -142,6 +151,7 @@ func _on_rect_size_changed(new_rect: Rect2, old_rect: Rect2) -> void:
 
 	var area_ratio = new_a / _level_area.get_rect().get_area()
 	var pitch = remap(area_ratio, 0, 1, 0.5, 2)
+
 	if new_a > old_a:
 		_sound_player.play_rect_up(pitch)
 		return
@@ -187,7 +197,7 @@ func _grow_cell(cell_position: Vector2i) -> void:
 
 			var new_cell = CellFactory.create_random_cell(_base_cell_probability)
 			var index = _max_cells.y * pos.y + pos.x
-			var new_cell_position = Vector2(pos.x, pos.y) * _cell_size + _level_area.position
+			var new_cell_position = Vector2(pos.x, pos.y) * _cells_size + _level_area.position
 
 			_create_cell(new_cell, new_cell_position, index, true)
 
@@ -220,7 +230,7 @@ func _get_cell_from_pos(pos: Vector2i) -> Cell:
 
 
 func _get_pos_from_mouse(mouse_pos: Vector2) -> Vector2i:
-	return Vector2i((mouse_pos - _level_area.position) / _cell_size)
+	return Vector2i((mouse_pos - _level_area.position) / _cells_size)
 
 
 func _get_cells_bbox(cells: Array) -> Rect2:
@@ -250,7 +260,7 @@ func _get_cells_bbox(cells: Array) -> Rect2:
 
 	return Rect2(
 		Vector2(min_x, min_y),
-		Vector2(max_x - min_x + _cell_size, max_y - min_y + _cell_size),
+		Vector2(max_x - min_x + _cells_size.x, max_y - min_y + _cells_size.y),
 	)
 
 
@@ -432,7 +442,7 @@ func _handle_mouse_button(event: InputEventMouseButton) -> void:
 
 
 func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
-	if (_drag_position - event.position).length() <= _cell_size / 4.0:
+	if (_drag_position - event.position).length() <= _cells_size.x / 4.0:
 		return
 	_update_active_cells()
 	_drag_position = event.position

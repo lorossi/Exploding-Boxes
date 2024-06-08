@@ -40,7 +40,7 @@ static func create_random_special_cell() -> SpecialCell:
 	return create_cell(CellType.EXTRA_POINTS)
 
 
-static func create_random_cell(base_probability: float) -> Cell:
+static func create_random_cell(base_probability: float = 0.75) -> Cell:
 	if randf() < base_probability:
 		return create_base_cell()
 

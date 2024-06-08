@@ -1,17 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5p4qh7pvymdg"]
+[gd_scene load_steps=3 format=3 uid="uid://c8uk62r4h5jw6"]
 
-[ext_resource type="Theme" uid="uid://cspbh3wsg5xg6" path="res://scenes/themes/gui_theme.tres" id="1_hdmpo"]
-[ext_resource type="Script" path="res://scripts/gui/restart_confirmation.gd" id="2_hrdul"]
+[ext_resource type="Theme" uid="uid://cspbh3wsg5xg6" path="res://scenes/themes/gui_theme.tres" id="1_ig0rp"]
+[ext_resource type="Script" path="res://scripts/gui/exit_confirmation.gd" id="2_vhu1q"]
 
-[node name="RestartConfirmation" type="Control"]
+[node name="ExitConfirmation" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_hdmpo")
-script = ExtResource("2_hrdul")
+theme = ExtResource("1_ig0rp")
+script = ExtResource("2_vhu1q")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -39,7 +39,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
-text = "do you want to restart?"
+text = "do you want to exit?"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
