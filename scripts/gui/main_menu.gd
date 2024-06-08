@@ -21,13 +21,12 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	_cells_container = $CellsContainer
-
 	_background = find_child("Background")
 	_start_button = find_child("StartButton")
 	_tutorial_button = find_child("TutorialButton")
 	_center_container = find_child("CenterContainer")
-
+	_cells_container = find_child("CellsContainer")
+	
 	_tutorial = find_child("Tutorial")
 
 	_start_button.grab_focus()

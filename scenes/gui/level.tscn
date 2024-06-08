@@ -17,10 +17,6 @@ script = ExtResource("1_16c7t")
 
 [node name="LevelArea" type="ColorRect" parent="."]
 layout_mode = 0
-offset_left = 32.0
-offset_top = 80.0
-offset_right = 896.0
-offset_bottom = 720.0
 color = Color(0.12549, 0.12549, 0.12549, 0)
 
 [node name="Background" type="ColorRect" parent="."]
