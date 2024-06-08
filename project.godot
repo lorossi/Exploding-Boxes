@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 SoundManagerInstance="*res://scripts/global/sound_manager.gd"
+RecordManagerInstance="*res://scripts/global/record_manager.gd"
 
 [display]
 

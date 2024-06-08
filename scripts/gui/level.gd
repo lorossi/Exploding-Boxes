@@ -78,6 +78,7 @@ func _restart_game() -> void:
 
 	_score = 0
 	_gui.set_score(_score)
+	_gui.set_best_score(RecordManagerInstance.get_record())
 	_mouse_pressed = false
 
 
@@ -437,6 +438,8 @@ func _handle_mouse_button(event: InputEventMouseButton) -> void:
 			_gui.set_score(_score)
 			if _score > _gui.get_best_score():
 				_gui.set_best_score(_score)
+			if _score > RecordManagerInstance.get_record():
+				RecordManagerInstance.set_record(_score)
 		else:
 			_reset_active_cells()
 			_reset_active_rect(true)
